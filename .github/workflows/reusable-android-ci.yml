@@ -1,0 +1,93 @@
+name: Reusable Android CI
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: 'Subdirectory of the template to build (e.g. mvvm-clean)'
+        required: true
+        type: string
+      java-version:
+        description: 'JDK version to use'
+        required: false
+        type: string
+        default: '17'
+
+jobs:
+  build-and-test:
+    name: Build, lint, test — ${{ inputs.working-directory }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Java ──────────────────────────────────────────────────────────────
+      - name: Set up JDK ${{ inputs.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: temurin
+          cache: gradle
+
+      # ── Gradle ────────────────────────────────────────────────────────────
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # ── Validate ──────────────────────────────────────────────────────────
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      # ── Lint ──────────────────────────────────────────────────────────────
+      - name: Run lint
+        run: ./gradlew lintDebug --stacktrace
+
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report-${{ inputs.working-directory }}
+          path: ${{ inputs.working-directory }}/**/build/reports/lint-results-debug.html
+          retention-days: 7
+
+      # ── Unit tests ────────────────────────────────────────────────────────
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --stacktrace
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ inputs.working-directory }}
+          path: ${{ inputs.working-directory }}/**/build/test-results/**/TEST-*.xml
+          retention-days: 7
+
+      - name: Publish test summary
+        if: always()
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: ${{ inputs.working-directory }}/**/build/test-results/**/TEST-*.xml
+          check_name: Unit test results — ${{ inputs.working-directory }}
+          fail_on_failure: true
+
+      # ── Assemble ──────────────────────────────────────────────────────────
+      - name: Assemble debug APK
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk-${{ inputs.working-directory }}
+          path: ${{ inputs.working-directory }}/**/build/outputs/apk/debug/*.apk
+          retention-days: 7

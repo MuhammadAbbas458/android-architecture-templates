@@ -1,0 +1,31 @@
+name: CI — mvvm-clean
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'mvvm-clean/**'
+      - '.github/workflows/ci-mvvm-clean.yml'
+      - '.github/workflows/reusable-android-ci.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'mvvm-clean/**'
+      - '.github/workflows/ci-mvvm-clean.yml'
+      - '.github/workflows/reusable-android-ci.yml'
+
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: ci-mvvm-clean-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    uses: ./.github/workflows/reusable-android-ci.yml
+    with:
+      working-directory: mvvm-clean
+      java-version: '17'
