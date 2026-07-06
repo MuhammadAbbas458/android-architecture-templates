@@ -3,16 +3,24 @@ name: CI — mvvm-clean
 on:
   push:
     branches:
-      - main
+      - master
     paths:
-      - 'mvvm-clean/**'
+      - 'app/**'
+      - 'gradle/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle.properties'
       - '.github/workflows/ci-mvvm-clean.yml'
       - '.github/workflows/reusable-android-ci.yml'
   pull_request:
     branches:
-      - main
+      - master
     paths:
-      - 'mvvm-clean/**'
+      - 'app/**'
+      - 'gradle/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle.properties'
       - '.github/workflows/ci-mvvm-clean.yml'
       - '.github/workflows/reusable-android-ci.yml'
 
@@ -27,5 +35,7 @@ jobs:
   ci:
     uses: ./.github/workflows/reusable-android-ci.yml
     with:
-      working-directory: mvvm-clean
+      # The mvvm-clean Gradle project lives at the repository root
+      working-directory: '.'
+      template-name: mvvm-clean
       java-version: '17'

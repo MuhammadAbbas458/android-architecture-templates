@@ -4,7 +4,11 @@ on:
   workflow_call:
     inputs:
       working-directory:
-        description: 'Subdirectory of the template to build (e.g. mvvm-clean)'
+        description: 'Directory containing the Gradle project (e.g. "." or a template subfolder)'
+        required: true
+        type: string
+      template-name:
+        description: 'Template name used in job and artifact labels'
         required: true
         type: string
       java-version:
@@ -15,7 +19,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build, lint, test — ${{ inputs.working-directory }}
+    name: Build, lint, test — ${{ inputs.template-name }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -40,7 +44,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+          cache-read-only: ${{ github.ref != 'refs/heads/master' }}
 
       - name: Make gradlew executable
         run: chmod +x gradlew
@@ -57,7 +61,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lint-report-${{ inputs.working-directory }}
+          name: lint-report-${{ inputs.template-name }}
           path: ${{ inputs.working-directory }}/**/build/reports/lint-results-debug.html
           retention-days: 7
 
@@ -69,7 +73,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ inputs.working-directory }}
+          name: test-results-${{ inputs.template-name }}
           path: ${{ inputs.working-directory }}/**/build/test-results/**/TEST-*.xml
           retention-days: 7
 
@@ -78,7 +82,7 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         with:
           report_paths: ${{ inputs.working-directory }}/**/build/test-results/**/TEST-*.xml
-          check_name: Unit test results — ${{ inputs.working-directory }}
+          check_name: Unit test results — ${{ inputs.template-name }}
           fail_on_failure: true
 
       # ── Assemble ──────────────────────────────────────────────────────────
@@ -88,6 +92,6 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk-${{ inputs.working-directory }}
+          name: debug-apk-${{ inputs.template-name }}
           path: ${{ inputs.working-directory }}/**/build/outputs/apk/debug/*.apk
           retention-days: 7
