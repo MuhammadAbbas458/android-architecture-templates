@@ -1,4 +1,4 @@
-\# Architecture — mvvm-clean
+# Architecture — mvvm-clean
 
 
 
@@ -6,11 +6,11 @@ This document explains how the `mvvm-clean` template is structured, why each lay
 
 
 
-\---
+---
 
 
 
-\## Layer diagram
+## Layer diagram
 
 
 
@@ -90,23 +90,23 @@ This document explains how the `mvvm-clean` template is structured, why each lay
 
 
 
-\*\*Dependency rule:\*\* arrows point inward only. The domain layer has zero knowledge of Android, Retrofit, Room, or any framework. The data layer depends on domain interfaces. The presentation layer depends on domain models, never on data classes or DTOs.
+**Dependency rule:** arrows point inward only. The domain layer has zero knowledge of Android, Retrofit, Room, or any framework. The data layer depends on domain interfaces. The presentation layer depends on domain models, never on data classes or DTOs.
 
 
 
-\---
+---
 
 
 
-\## The three layers
+## The three layers
 
 
 
-\### Presentation layer
+### Presentation layer
 
 
 
-\*\*Packages:\*\* `presentation/screens/`, `presentation/viewmodel/`, `presentation/state/`
+**Packages:** `presentation/screens/`, `presentation/viewmodel/`, `presentation/state/`
 
 
 
@@ -130,19 +130,19 @@ Key rule: screens never call use cases directly, never hold coroutine scopes, an
 
 
 
-See \[ADR-004 — why StateFlow over LiveData](docs/ADR-004-stateflow-vs-livedata.md).
+See [ADR-004 — why StateFlow over LiveData](docs/ADR-004-stateflow-vs-livedata.md).
 
 
 
-\---
+---
 
 
 
-\### Domain layer
+### Domain layer
 
 
 
-\*\*Packages:\*\* `domain/model/`, `domain/repository/`, `domain/usecase/`
+**Packages:** `domain/model/`, `domain/repository/`, `domain/usecase/`
 
 
 
@@ -150,11 +150,11 @@ The domain layer is the heart of the app and the only layer with no framework de
 
 
 
-\- \*\*Models\*\* — plain Kotlin data classes representing your business concepts. No `@Entity`, no `@SerializedName`.
+- **Models** — plain Kotlin data classes representing your business concepts. No `@Entity`, no `@SerializedName`.
 
-\- \*\*Repository interfaces\*\* — contracts that the data layer must fulfil. The domain layer defines \_what\_ it needs; the data layer provides \_how\_.
+- **Repository interfaces** — contracts that the data layer must fulfil. The domain layer defines _what_ it needs; the data layer provides _how_.
 
-\- \*\*Use cases\*\* — one class, one public function, one responsibility. A use case orchestrates one user-facing action (e.g. `GetNotesUseCase`, `CreateNoteUseCase`). It calls repository methods and applies any business logic.
+- **Use cases** — one class, one public function, one responsibility. A use case orchestrates one user-facing action (e.g. `GetNotesUseCase`, `CreateNoteUseCase`). It calls repository methods and applies any business logic.
 
 
 
@@ -178,19 +178,19 @@ Because the domain layer is pure Kotlin, every use case is trivial to unit test 
 
 
 
-See \[ADR-001 — why use cases instead of calling the repository directly](docs/ADR-001-why-usecases.md).
+See [ADR-001 — why use cases instead of calling the repository directly](docs/ADR-001-why-usecases.md).
 
 
 
-\---
+---
 
 
 
-\### Data layer
+### Data layer
 
 
 
-\*\*Packages:\*\* `data/repository/`, `data/local/`, `data/remote/`, `data/mapper/`
+**Packages:** `data/repository/`, `data/local/`, `data/remote/`, `data/mapper/`
 
 
 
@@ -216,15 +216,15 @@ NoteMapper     — NoteDto → Note, NoteEntity → Note, Note → NoteEntity
 
 
 
-See \[ADR-002 — why separate DTOs and domain models](docs/ADR-002-dto-vs-domain-model.md).
+See [ADR-002 — why separate DTOs and domain models](docs/ADR-002-dto-vs-domain-model.md).
 
 
 
-\---
+---
 
 
 
-\## Dependency injection
+## Dependency injection
 
 
 
@@ -233,13 +233,9 @@ Hilt is the DI framework. Modules live in `di/` and are split by concern:
 
 
 | Module | Provides |
-
 |---|---|
-
 | `DatabaseModule` | `NoteDatabase`, `NoteDao` |
-
 | `NetworkModule` | `Retrofit`, `NoteApiService` |
-
 | `RepositoryModule` | `NoteRepository` → `NoteRepositoryImpl` binding |
 
 
@@ -248,15 +244,15 @@ The domain layer has no Hilt annotations. Use cases are injected into ViewModels
 
 
 
-See \[ADR-003 — why Hilt over manual DI or Koin](docs/ADR-003-why-hilt.md).
+See [ADR-003 — why Hilt over manual DI or Koin](docs/ADR-003-why-hilt.md).
 
 
 
-\---
+---
 
 
 
-\## Data flow — end to end
+## Data flow — end to end
 
 
 
@@ -266,31 +262,31 @@ A complete user action follows this path:
 
 ```
 
-1\. User taps "Add note" in Compose screen
+1. User taps "Add note" in Compose screen
 
 &#x20;        │
 
 &#x20;        ▼
 
-2\. Screen calls viewModel.onAction(CreateNote(title, body))
+2. Screen calls viewModel.onAction(CreateNote(title, body))
 
 &#x20;        │
 
 &#x20;        ▼
 
-3\. ViewModel calls createNoteUseCase(title, body)
+3. ViewModel calls createNoteUseCase(title, body)
 
 &#x20;        │
 
 &#x20;        ▼
 
-4\. CreateNoteUseCase calls noteRepository.createNote(note)
+4. CreateNoteUseCase calls noteRepository.createNote(note)
 
 &#x20;        │
 
 &#x20;        ▼
 
-5\. NoteRepositoryImpl maps Note → NoteEntity
+5. NoteRepositoryImpl maps Note → NoteEntity
 
 &#x20;  calls noteDao.insert(entity)          ← Room write
 
@@ -300,7 +296,7 @@ A complete user action follows this path:
 
 &#x20;        ▼
 
-6\. Room emits updated Flow<List<NoteEntity>>
+6. Room emits updated Flow<List<NoteEntity>>
 
 &#x20;  RepositoryImpl maps NoteEntity → Note
 
@@ -310,7 +306,7 @@ A complete user action follows this path:
 
 &#x20;        ▼
 
-7\. ViewModel maps List<Note> → UiState.Success(notes)
+7. ViewModel maps List<Note> → UiState.Success(notes)
 
 &#x20;  StateFlow emits new state
 
@@ -318,7 +314,7 @@ A complete user action follows this path:
 
 &#x20;        ▼
 
-8\. Compose screen recomposes with updated list
+8. Compose screen recomposes with updated list
 
 ```
 
@@ -328,26 +324,20 @@ No step skips a layer. No step passes a framework type across a boundary.
 
 
 
-\---
+---
 
 
 
-\## Testing strategy
+## Testing strategy
 
 
 
 | Layer | Test type | What to use |
-
 |---|---|---|
-
 | Domain — use cases | Unit test | Fake repository, `runTest`, no Android deps |
-
 | Data — repository | Unit test | `mockk` for DAO + API, in-memory Room |
-
 | Data — mappers | Unit test | Plain assertions, zero mocks needed |
-
 | Presentation — ViewModel | Unit test | Fake use cases, `Turbine` for Flow assertions |
-
 | Presentation — screens | UI test | `composeTestRule`, fake ViewModel state |
 
 
@@ -356,35 +346,29 @@ Start with use case and mapper tests — they are the fastest to write and give 
 
 
 
-\---
+---
 
 
 
-\## ADR index
+## ADR index
 
 
 
 | # | Decision | Status |
-
 |---|---|---|
-
-| \[ADR-001](docs/ADR-001-why-usecases.md) | Use cases instead of direct repository calls from ViewModel | Accepted |
-
-| \[ADR-002](docs/ADR-002-dto-vs-domain-model.md) | Separate DTOs and domain models with mapper functions | Accepted |
-
-| \[ADR-003](docs/ADR-003-why-hilt.md) | Hilt for dependency injection | Accepted |
-
-| \[ADR-004](docs/ADR-004-stateflow-vs-livedata.md) | StateFlow over LiveData for UI state | Accepted |
-
-| \[ADR-005](docs/ADR-005-single-activity.md) | Single Activity with Compose Navigation | Accepted |
+| [ADR-001](docs/ADR-001-why-usecases.md) | Use cases instead of direct repository calls from ViewModel | Accepted |
+| [ADR-002](docs/ADR-002-dto-vs-domain-model.md) | Separate DTOs and domain models with mapper functions | Accepted |
+| [ADR-003](docs/ADR-003-why-hilt.md) | Hilt for dependency injection | Accepted |
+| [ADR-004](docs/ADR-004-stateflow-vs-livedata.md) | StateFlow over LiveData for UI state | Accepted |
+| [ADR-005](docs/ADR-005-single-activity.md) | Single Activity with Compose Navigation | Accepted |
 
 
 
-\---
+---
 
 
 
-\## What this template does not include
+## What this template does not include
 
 
 
@@ -392,37 +376,37 @@ This template is intentionally minimal so it stays readable. The following are c
 
 
 
-\- Paging 3 integration for large lists
+- Paging 3 integration for large lists
 
-\- Offline-first caching strategy in `RepositoryImpl`
+- Offline-first caching strategy in `RepositoryImpl`
 
-\- Navigation type-safety with Compose Destinations or the new `NavController` type-safe APIs
+- Navigation type-safety with Compose Destinations or the new `NavController` type-safe APIs
 
-\- Proto DataStore for user preferences
+- Proto DataStore for user preferences
 
-\- WorkManager for background sync
-
-
-
-See the \[open issues](../../issues) for community-contributed extensions.
+- WorkManager for background sync
 
 
 
-\---
+See the [open issues](https://github.com/MuhammadAbbas458/android-architecture-templates/issues) for community-contributed extensions.
 
 
 
-\## Further reading
+---
 
 
 
-\- \[Now in Android](https://github.com/android/nowinandroid) — Google's reference app using the same layered approach at scale
+## Further reading
 
-\- \[Clean Architecture by Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — the original article
 
-\- \[Android app architecture guide](https://developer.android.com/topic/architecture) — official Android documentation
 
-\- \[Why every ViewModel should expose a single UiState](https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda) — Android developers blog
+- [Now in Android](https://github.com/android/nowinandroid) — Google's reference app using the same layered approach at scale
+
+- [Clean Architecture by Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — the original article
+
+- [Android app architecture guide](https://developer.android.com/topic/architecture) — official Android documentation
+
+- [Why every ViewModel should expose a single UiState](https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda) — Android developers blog
 
 
 
