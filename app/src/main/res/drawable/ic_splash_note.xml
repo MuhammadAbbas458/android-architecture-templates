@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Splash icon: a note document with a folded corner.
+    Keep all shapes inside the centre two-thirds of the canvas — on
+    Android 12+ the system masks the icon into a circle.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Document body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,28 h18 l12,12 v36 a6,6 0 0 1 -6,6 h-24 a6,6 0 0 1 -6,-6 v-42 a6,6 0 0 1 6,-6 z" />
+
+    <!-- Folded corner -->
+    <path
+        android:fillColor="#D0BCFF"
+        android:pathData="M60,28 l12,12 h-9 a3,3 0 0 1 -3,-3 z" />
+
+    <!-- Text lines -->
+    <path
+        android:fillColor="#6650A4"
+        android:pathData="M44,48 h20 v4 h-20 z M44,57 h20 v4 h-20 z M44,66 h13 v4 h-13 z" />
+</vector>

@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# IDE-managed local metadata
+/.idea/.name
+/.idea/deviceManager.xml
