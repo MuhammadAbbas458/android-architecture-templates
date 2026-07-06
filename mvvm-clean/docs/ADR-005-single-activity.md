@@ -16,9 +16,9 @@ duplicated theming, splash handling, and Intent-based argument passing.
 One `MainActivity` hosting a `NavHost` (Navigation Compose) with string
 routes:
 
-- `notes` — the list
-- `notes/new` — create form
-- `notes/{noteId}` — read-only detail, argument typed as Long
+- `notes` - the list
+- `notes/new` - create form
+- `notes/{noteId}` - read-only detail, argument typed as Long
 
 Screens are stateless: the activity-scoped `NoteListViewModel` provides a
 single `StateFlow` of UI state, and screens emit `UserAction`s back. The
@@ -33,7 +33,7 @@ user sees is real content.
 
 ## Consequences
 
-- Navigation is plain Kotlin — testable screens, previewable with fake
+- Navigation is plain Kotlin - testable screens, previewable with fake
   state, no Intent plumbing.
 - A single ViewModel scope is enough for this app's size; a larger app would
   give each destination its own ViewModel (`hiltViewModel()` per back-stack

@@ -7,7 +7,7 @@ Accepted
 ## Context
 
 The ViewModel needs to read and mutate notes. It could inject `NoteRepository`
-directly — one less layer, less boilerplate. Many small apps do exactly that.
+directly - one less layer, less boilerplate. Many small apps do exactly that.
 
 The question is where business rules live. In this template two already exist:
 
@@ -33,6 +33,6 @@ needs.
   beyond `runTest`).
 - ViewModels shrink to state mapping and event dispatch.
 - Cost: pass-through use cases (like `DeleteNoteUseCase`) add a file that
-  does little today. We accept the boilerplate for consistency — a mixed
+  does little today. We accept the boilerplate for consistency - a mixed
   convention ("go through a use case only when there is logic") is harder to
   follow than a uniform one.

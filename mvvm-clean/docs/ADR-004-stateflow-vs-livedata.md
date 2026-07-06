@@ -19,7 +19,7 @@ add a conversion at both ends for no benefit.
   changes but stops it when the app is truly backgrounded.
 - One-time effects (snackbars, navigation): a `Channel<UiEvent>` exposed as a
   `Flow`. State can be re-rendered any number of times; events must be
-  consumed exactly once — putting them in state causes the classic
+  consumed exactly once - putting them in state causes the classic
   "snackbar reappears on rotation" bug.
 - Collection in Compose uses `collectAsStateWithLifecycle()` so flows stop
   when the UI is not at least STARTED.
@@ -28,7 +28,7 @@ add a conversion at both ends for no benefit.
 
 - One reactive vocabulary (Flow operators) from Room to the screen; the
   Loading → Success/Error mapping is a two-operator chain (`map` + `catch`).
-- Testable with plain coroutines tooling — `NoteListViewModelTest` uses
+- Testable with plain coroutines tooling - `NoteListViewModelTest` uses
   Turbine and a test dispatcher, no `InstantTaskExecutorRule`.
 - StateFlow always has a value, so there is no "no state yet" branch in the
   UI; the initial value is explicitly `Loading`.

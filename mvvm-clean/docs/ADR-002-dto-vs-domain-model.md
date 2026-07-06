@@ -8,7 +8,7 @@ Accepted
 
 A note exists in three shapes: what the API returns, what Room stores, and
 what the app logic works with. The tempting shortcut is one class annotated
-for everything — `@Entity` for Room, `@SerializedName` for Gson — passed
+for everything - `@Entity` for Room, `@SerializedName` for Gson - passed
 through every layer.
 
 That couples the whole app to external contracts: renaming a JSON field or
@@ -19,9 +19,9 @@ domain layer silently inherits framework annotations.
 
 Three types, one per concern, meeting only inside `data/mapper/NoteMapper.kt`:
 
-- `NoteDto` — mirrors the network response (Gson annotations)
-- `NoteEntity` — mirrors the database table (Room annotations)
-- `Note` — plain Kotlin data class, the only type that crosses layer
+- `NoteDto` - mirrors the network response (Gson annotations)
+- `NoteEntity` - mirrors the database table (Room annotations)
+- `Note` - plain Kotlin data class, the only type that crosses layer
   boundaries
 
 Mapping is done with simple extension functions (`toDomain()`, `toEntity()`),

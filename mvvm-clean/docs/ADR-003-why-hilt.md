@@ -9,20 +9,20 @@ Accepted
 The object graph is small but real: database → DAO → repository → use cases →
 ViewModel, plus OkHttp/Retrofit. Options considered:
 
-- **Manual DI** — a hand-rolled `AppContainer`. Zero dependencies, but wiring
+- **Manual DI** - a hand-rolled `AppContainer`. Zero dependencies, but wiring
   grows quadratically and ViewModel factories are tedious.
-- **Koin** — runtime service locator; light setup, but graph errors surface
+- **Koin** - runtime service locator; light setup, but graph errors surface
   at runtime, not compile time.
-- **Hilt** — Dagger under the hood with Android-aware components; graph
+- **Hilt** - Dagger under the hood with Android-aware components; graph
   errors fail the build.
 
 ## Decision
 
 Hilt everywhere, via KSP. Three modules keep concerns separate:
 
-- `DatabaseModule` — Room database and DAO
-- `NetworkModule` — OkHttp, Retrofit, API service
-- `RepositoryModule` — binds `NoteRepositoryImpl` to the domain's
+- `DatabaseModule` - Room database and DAO
+- `NetworkModule` - OkHttp, Retrofit, API service
+- `RepositoryModule` - binds `NoteRepositoryImpl` to the domain's
   `NoteRepository` interface (`@Binds`, so the domain interface is the only
   thing ViewModels see)
 
