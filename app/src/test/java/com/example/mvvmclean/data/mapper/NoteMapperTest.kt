@@ -6,9 +6,6 @@ import com.example.mvvmclean.domain.model.Note
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-/**
- * Pure mapping tests — plain input/output assertions, zero mocks.
- */
 class NoteMapperTest {
 
     @Test

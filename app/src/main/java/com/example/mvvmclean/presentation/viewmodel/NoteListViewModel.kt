@@ -28,12 +28,8 @@ class NoteListViewModel @Inject constructor(
     private val deleteNote: DeleteNoteUseCase,
 ) : ViewModel() {
 
-    /**
-     * Screen state derived directly from the notes stream. `stateIn` shares a
-     * single upstream collection across all observers and keeps it alive for
-     * five seconds after the UI stops listening, surviving rotation without
-     * re-querying the database.
-     */
+    // WhileSubscribed(5s) keeps the upstream Room subscription alive across
+    // rotation but stops it when the app is backgrounded.
     val uiState: StateFlow<NoteListUiState> = getNotes()
         .map<List<Note>, NoteListUiState> { notes -> NoteListUiState.Success(notes) }
         .catch { throwable ->
@@ -45,11 +41,10 @@ class NoteListViewModel @Inject constructor(
             initialValue = NoteListUiState.Loading,
         )
 
-    /** Buffered channel so events fired while the UI is paused are not lost. */
+    // Buffered so events fired while the UI is paused aren't dropped.
     private val _events = Channel<UiEvent>(Channel.BUFFERED)
     val events: Flow<UiEvent> = _events.receiveAsFlow()
 
-    /** Single entry point for everything the user does on screen. */
     fun onAction(action: UserAction) {
         when (action) {
             is UserAction.CreateNote -> onCreateNote(action.title, action.content)

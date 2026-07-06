@@ -37,16 +37,9 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 /**
- * Stateless note detail screen.
- *
- * Two modes, decided by the caller:
- *  - [note] == null → "create" mode with editable fields; Save emits
- *    [UserAction.CreateNote]. Navigation back happens when the ViewModel
- *    confirms creation with a NavigateBack event.
- *  - [note] != null → read-only view of an existing note with a delete action.
- *
- * The text field values are transient UI state (like scroll position), so they
- * live here in [rememberSaveable] rather than in the ViewModel.
+ * Create mode when [note] is null (editable fields, save button), otherwise
+ * a read-only view of an existing note. After a save the ViewModel confirms
+ * with a NavigateBack event.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Splash icon: a note document with a folded corner.
-    Keep all shapes inside the centre two-thirds of the canvas — on
-    Android 12+ the system masks the icon into a circle.
--->
+<!-- Splash icon. Shapes must stay inside the centre two-thirds of the
+     canvas because Android 12+ masks the icon into a circle. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"

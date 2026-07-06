@@ -3,11 +3,7 @@
 
     <style name="Theme.Androidarchitecturetemplates" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <!--
-        Splash theme shown while the app starts. The SplashScreen library
-        renders it natively on Android 12+ and emulates it on older versions;
-        postSplashScreenTheme swaps back to the real theme afterwards.
-    -->
+    <!-- Splash theme; postSplashScreenTheme swaps back to the real theme. -->
     <style name="Theme.Androidarchitecturetemplates.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_note</item>

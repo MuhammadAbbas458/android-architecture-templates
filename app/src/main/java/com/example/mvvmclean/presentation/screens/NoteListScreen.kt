@@ -36,13 +36,6 @@ import com.example.mvvmclean.presentation.state.NoteListUiState
 import com.example.mvvmclean.presentation.state.UserAction
 import com.example.mvvmclean.ui.theme.AndroidarchitecturetemplatesTheme
 
-/**
- * Stateless notes list screen.
- *
- * Receives [state] and reports every interaction through [onAction] or a
- * navigation callback — it holds no business logic and never talks to the
- * ViewModel directly, which keeps it trivially previewable and testable.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteListScreen(

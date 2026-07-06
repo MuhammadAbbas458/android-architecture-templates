@@ -17,11 +17,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 /**
- * Offline-first implementation of [NoteRepository].
- *
- * Room is the single source of truth: the UI always renders what is in the
- * database. The remote API is only used to seed an empty database on first
- * launch; a network failure is swallowed so the app works fully offline.
+ * Offline-first: Room is the source of truth and the remote API only seeds
+ * an empty database on first launch. Network failures are swallowed so the
+ * app works fully offline.
  */
 @Singleton
 class NoteRepositoryImpl @Inject constructor(
@@ -31,8 +29,8 @@ class NoteRepositoryImpl @Inject constructor(
 
     override fun getNotes(): Flow<List<Note>> = flow {
         coroutineScope {
-            // Seed concurrently so the first database emission is never
-            // blocked behind a network call; Room re-emits when it lands.
+            // Seed concurrently so the first emission isn't blocked on the
+            // network. Room re-emits when the seed lands.
             launch { seedFromRemoteIfEmpty() }
             emitAll(
                 dao.observeNotes()
@@ -57,12 +55,8 @@ class NoteRepositoryImpl @Inject constructor(
         dao.deleteById(id)
     }
 
-    /**
-     * Seeds the local cache from the remote API the first time the app runs.
-     * Best-effort by design: if the device is offline the app simply starts
-     * with an empty list. A production app would replace this with a real
-     * sync strategy (e.g. WorkManager + conflict resolution).
-     */
+    // Best-effort: if the device is offline the app just starts with an
+    // empty list. A real app would replace this with a proper sync strategy.
     private suspend fun seedFromRemoteIfEmpty() {
         if (dao.count() > 0) return
         runCatching { api.getNotes() }

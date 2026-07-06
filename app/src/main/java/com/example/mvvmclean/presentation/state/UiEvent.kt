@@ -1,10 +1,8 @@
 package com.example.mvvmclean.presentation.state
 
 /**
- * One-time side effects sent from the ViewModel to the UI through a Channel.
- *
- * Unlike [NoteListUiState] these must be consumed exactly once — showing a
- * snackbar again after a configuration change would be a bug.
+ * One-shot effects, sent over a Channel so they are consumed exactly once.
+ * Keeping these in UiState would replay them after a configuration change.
  */
 sealed class UiEvent {
 

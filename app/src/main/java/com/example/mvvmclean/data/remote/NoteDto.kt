@@ -2,13 +2,7 @@ package com.example.mvvmclean.data.remote
 
 import com.google.gson.annotations.SerializedName
 
-/**
- * Network response shape for a note.
- *
- * Matches the JSONPlaceholder `/posts` resource that this template uses as a
- * demo backend. Like [com.example.mvvmclean.data.local.NoteEntity], this type
- * never leaves the data layer.
- */
+/** Matches the JSONPlaceholder /posts response used as the demo backend. */
 data class NoteDto(
     @SerializedName("id")
     val id: Long,

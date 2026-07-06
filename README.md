@@ -2,7 +2,7 @@
 
 
 
-[![CI — mvvm-clean](https://img.shields.io/github/actions/workflow/status/MuhammadAbbas458/android-architecture-templates/ci-mvvm-clean.yml?label=mvvm-clean&logo=android&logoColor=white)](https://github.com/MuhammadAbbas458/android-architecture-templates/actions)
+[![CI - mvvm-clean](https://img.shields.io/github/actions/workflow/status/MuhammadAbbas458/android-architecture-templates/ci-mvvm-clean.yml?label=mvvm-clean&logo=android&logoColor=white)](https://github.com/MuhammadAbbas458/android-architecture-templates/actions)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -14,7 +14,7 @@
 
 
 
-Opinionated, production-ready Android project templates. Clone one, build your app — the architecture is already wired up, tested, and documented.
+Opinionated, production-ready Android project templates. Clone one, build your app - the architecture is already wired up, tested, and documented.
 
 
 
@@ -36,7 +36,7 @@ Each template ships a working **Notes app** so you can see the pattern applied e
 
 
 
-> More templates coming soon — `mvi-compose` and `multi-module-clean` are in progress.
+> More templates coming soon - `mvi-compose` and `multi-module-clean` are in progress.
 
 
 
@@ -48,7 +48,7 @@ Each template ships a working **Notes app** so you can see the pattern applied e
 
 
 
-### Option A — use GitHub template (recommended)
+### Option A - use GitHub template (recommended)
 
 
 
@@ -58,20 +58,18 @@ Each template ships a working **Notes app** so you can see the pattern applied e
 
 3. Rename the package: **Right-click `com.example.notes` → Refactor → Rename**
 
-4. Run the app — a working Notes screen should launch immediately
+4. Run the app - a working Notes screen should launch immediately
 
 
 
-### Option B — clone this repo
+### Option B - clone this repo
 
 
 
 ```bash
 
 git clone https://github.com/MuhammadAbbas458/android-architecture-templates.git
-
 cd android-architecture-templates/mvvm-clean
-
 ```
 
 
@@ -107,35 +105,20 @@ Open the `mvvm-clean` subfolder as the project root in Android Studio.
 ```
 
 app/src/main/
-
 ├── data/
-
 │   ├── local/          # Room database, DAOs, entities
-
 │   ├── remote/         # Retrofit service, DTOs
-
-│   ├── repository/     # RepositoryImpl — wires local + remote
-
+│   ├── repository/     # RepositoryImpl - wires local + remote
 │   └── mapper/         # DTO → domain model conversions
-
 ├── domain/
-
 │   ├── model/          # Plain Kotlin data classes, zero annotations
-
 │   ├── repository/     # Repository interfaces (contracts only)
-
 │   └── usecase/        # One class, one action, one public function
-
 ├── presentation/
-
 │   ├── screens/        # Stateless Compose screens
-
 │   ├── viewmodel/      # @HiltViewModel, StateFlow<UiState>
-
 │   └── state/          # UiState, UiEvent, UserAction definitions
-
 └── di/                 # Hilt modules: Database, Network, Repository
-
 ```
 
 
@@ -156,17 +139,17 @@ Tech stack: Jetpack Compose · ViewModel · StateFlow · Room · Retrofit · Hil
 
 
 
-- **A working Notes app** — list, create, and delete notes so every layer has real code in it
+- **A working Notes app** - list, create, and delete notes so every layer has real code in it
 
-- **Dependency injection** — Hilt wired end-to-end, no manual DI boilerplate
+- **Dependency injection** - Hilt wired end-to-end, no manual DI boilerplate
 
-- **Unit tests** — use case tests with fake repositories, ViewModel tests with Turbine
+- **Unit tests** - use case tests with fake repositories, ViewModel tests with Turbine
 
-- **GitHub Actions CI** — build, lint, and test on every pull request
+- **GitHub Actions CI** - build, lint, and test on every pull request
 
-- **ARCHITECTURE.md** — ASCII layer diagram, data flow walkthrough, and testing strategy
+- **ARCHITECTURE.md** - ASCII layer diagram, data flow walkthrough, and testing strategy
 
-- **ADR docs** — every non-obvious decision explained with context and reasoning
+- **ADR docs** - every non-obvious decision explained with context and reasoning
 
 
 
@@ -200,13 +183,13 @@ Contributions are welcome. The most useful contributions are:
 
 
 
-- Extending the template — adding Paging 3, DataStore, WorkManager, or offline-first caching
+- Extending the template - adding Paging 3, DataStore, WorkManager, or offline-first caching
 
-- Fixing outdated dependencies — keeping Gradle, Compose, and Hilt versions current
+- Fixing outdated dependencies - keeping Gradle, Compose, and Hilt versions current
 
-- Adding a new ADR — documenting a decision that isn't covered yet
+- Adding a new ADR - documenting a decision that isn't covered yet
 
-- Improving test coverage — additional ViewModel or use case tests
+- Improving test coverage - additional ViewModel or use case tests
 
 
 
@@ -222,13 +205,13 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
 
 
-- [Now in Android](https://github.com/android/nowinandroid) — Google's reference app, same layered approach at production scale
+- [Now in Android](https://github.com/android/nowinandroid) - Google's reference app, same layered approach at production scale
 
-- [Clean Architecture — Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) — the original article
+- [Clean Architecture - Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) - the original article
 
-- [Android app architecture guide](https://developer.android.com/topic/architecture) — official documentation
+- [Android app architecture guide](https://developer.android.com/topic/architecture) - official documentation
 
-- [Collecting flows from Android UIs](https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda) — why every ViewModel should expose a single UiState
+- [Collecting flows from Android UIs](https://medium.com/androiddevelopers/a-safer-way-to-collect-flows-from-android-uis-23080b1f8bda) - why every ViewModel should expose a single UiState
 
 
 
@@ -251,31 +234,22 @@ Copyright (c) 2025 MuhammadAbbas458
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-
 of this software and associated documentation files (the "Software"), to deal
-
 in the Software without restriction, including without limitation the rights
-
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-
 copies of the Software, and to permit persons to whom the Software is
-
 furnished to do so, subject to the following conditions:
 
 
 
 The above copyright notice and this permission notice shall be included in all
-
 copies or substantial portions of the Software.
 
 
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-
 ```
 
 

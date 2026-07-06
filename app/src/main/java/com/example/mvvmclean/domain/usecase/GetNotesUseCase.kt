@@ -6,12 +6,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-/**
- * Streams all notes sorted by last update, newest first.
- *
- * Sorting is business logic, so it lives here rather than in the data layer
- * or the ViewModel.
- */
+/** Streams all notes, most recently updated first. */
 class GetNotesUseCase @Inject constructor(
     private val repository: NoteRepository,
 ) {

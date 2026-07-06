@@ -10,10 +10,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-/**
- * Tests the use case against a hand-written fake repository — no mocking
- * library needed because [NoteRepository] is a small domain-owned interface.
- */
 class GetNotesUseCaseTest {
 
     private class FakeNoteRepository : NoteRepository {

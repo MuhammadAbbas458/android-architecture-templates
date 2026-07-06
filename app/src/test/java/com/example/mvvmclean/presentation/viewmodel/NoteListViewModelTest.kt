@@ -25,10 +25,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-/**
- * ViewModel tests using MockK fakes for the use cases and Turbine for
- * asserting on the exposed flows.
- */
 @OptIn(ExperimentalCoroutinesApi::class)
 class NoteListViewModelTest {
 

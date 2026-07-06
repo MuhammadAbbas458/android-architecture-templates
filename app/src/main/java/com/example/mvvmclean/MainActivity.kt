@@ -36,9 +36,8 @@ class MainActivity : ComponentActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        // Hold the splash screen until the first real state (notes or an
-        // error) replaces Loading, so the list never flashes a spinner on
-        // cold start.
+        // Hold the splash until the first real state replaces Loading so the
+        // list doesn't flash a spinner on cold start.
         splashScreen.setKeepOnScreenCondition {
             viewModel.uiState.value is NoteListUiState.Loading
         }
@@ -52,17 +51,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/**
- * Root composable: owns navigation and connects the single [NoteListViewModel]
- * to the stateless screens. State flows down, actions flow up.
- */
 @Composable
 fun NotesApp(viewModel: NoteListViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    // One-time events (snackbars, navigation) are consumed exactly once here.
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
